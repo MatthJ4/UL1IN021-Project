@@ -14,3 +14,5 @@ def save(file: str, thing_to_dump):
     """Overwrite a json file with thing_to_dump"""
     with open(file, "w", encoding="utf-8") as f:
         json.dump(thing_to_dump, f)
+
+"""Usefull ?"""

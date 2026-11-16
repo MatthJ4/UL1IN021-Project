@@ -5,14 +5,12 @@ from src import settings
 class MainMenu:
     """Main menu
     Arg: game: current scene manager"""
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, app):
+        self.app = app
         self.clock = pygame.time.Clock()
         self.events = pygame.event.get()
         self.font =  pygame.font.SysFont("Times New Roman", 14)
-        self.buttons = [Button("Start Game", settings.s_width // 2, 400 * settings.scaley, lambda: game.button_action("difficulty")),
-                        Button("Settings", settings.s_width // 2, 600 * settings.scaley, lambda: game.button_action("settings")),
-                        Button("Quit", settings.s_width // 2, 800 * settings.scaley, lambda: game.button_action("quit"))]
+        self.buttons = [Button("Record", 200*settings.scalex, 100*settings.scaley, lambda: app.button_action())]
 
     def run(self):
         """ Main Menu run loop"""
@@ -21,10 +19,10 @@ class MainMenu:
             self.events = pygame.event.get()
             for event in self.events:
                 if event.type == pygame.QUIT:
-                    self.game.current_scene = "quit"
+                    self.app.current_scene = "quit"
                     
-            if self.game.current_scene != "menu":
-                return self.game.current_scene
+            if self.app.current_scene != "main":
+                return self.app.current_scene
             
             settings.screen.fill(settings.grey)
             for btn in self.buttons:

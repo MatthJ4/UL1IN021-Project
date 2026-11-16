@@ -2,12 +2,16 @@ import pygame
 from src import settings
 
 class Button:
-    def __init__(self, text, x, y, action):
+    def __init__(self, text, x, y, action, image=None):
         self.font = pygame.font.SysFont("arial", int(40 * settings.scaley))
         self.text = text
         self.x = x
         self.y = y
         self.action = action
+        if image:
+            self.image = pygame.image.load(image).convert_alpha()
+            w, h = image.get_size() 
+            self.image = pygame.transform.smoothscale(image, (int(w * settings.scaley), int(h * settings.scaley)))
         
     def update(self, events):
         """Update Button"""

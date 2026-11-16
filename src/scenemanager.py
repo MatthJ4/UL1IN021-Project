@@ -1,8 +1,6 @@
 import pygame
 from src import settings
 from src.levels.mainmenu import MainMenu
-from src.levels.settingsmenu import Settings
-from src.levels.difficulty import Difficulty
 from src.system.save_load import load, save
                 
 class SceneManager:
@@ -10,16 +8,10 @@ class SceneManager:
     pygame.init()
     pygame.mixer.init()
     def __init__(self):
-        pygame.display.set_caption("NAME TO FIND")
-        self.audio = load(settings.audio_file, settings.default_audio)
+        pygame.display.set_caption("NAME TO BE FOUND")
         self.clock = pygame.time.Clock()
-        self.current_scene = "menu"
-        self.difficulty = ""
-        self.scenes = {
-        "menu": MainMenu(self),
-        "settings": Settings(self),
-        "difficulty": Difficulty(self),
-        }
+        self.current_scene = "main"
+        self.scenes = {"main": MainMenu(self),}
         self.run()
         
     def run(self):
@@ -32,6 +24,9 @@ class SceneManager:
                 pygame.quit()
                 break
 
-    def button_action(self, scene: str):
+    def change_scene(self, scene: str):
         """Change the current scene to scene"""
         self.current_scene = scene
+
+    def button_action(self):
+        """TO DO"""
