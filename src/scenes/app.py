@@ -5,9 +5,9 @@ from src.system import capteur
 
 class App:
     """The main app
-    Arg: game: current scene manager"""
+    Arg: scm: current scene manager"""
     def __init__(self, app):
-        self.app = app
+        self.scm = scm
         self.clock = pygame.time.Clock()
         self.events = pygame.event.get()
         self.font =  pygame.font.SysFont("Times New Roman", 14)
@@ -20,9 +20,9 @@ class App:
             self.events = pygame.event.get()
             for event in self.events:
                 if event.type == pygame.QUIT:
-                    self.app.current_scene = "quit"
+                    self.scm.current_scene = "quit"
                     
-            if self.app.current_scene != "main":
+            if self.scm.current_scene != "main":
                 return self.app.current_scene
             
             settings.screen.fill(settings.grey)
