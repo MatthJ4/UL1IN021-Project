@@ -6,7 +6,7 @@ from src.system import capteur
 class App:
     """The main app
     Arg: scm: current scene manager"""
-    def __init__(self, app):
+    def __init__(self, scm):
         self.scm = scm
         self.clock = pygame.time.Clock()
         self.events = pygame.event.get()
