@@ -1,6 +1,7 @@
 import pygame
 from src.ui.button import Button
 from src import settings
+from src.system import capteur
 
 class App:
     """The main app
@@ -27,6 +28,7 @@ class App:
             settings.screen.fill(settings.grey)
             for btn in self.buttons:
                 btn.update(self.events)
+            capteur.instrument()
 
             pygame.display.flip()
             self.clock.tick(60)
