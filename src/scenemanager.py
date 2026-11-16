@@ -1,6 +1,6 @@
 import pygame
 from src import settings
-from src.levels.mainmenu import MainMenu
+from src.scenes.app import App
 from src.system.save_load import load, save
                 
 class SceneManager:
@@ -11,7 +11,7 @@ class SceneManager:
         pygame.display.set_caption("NAME TO BE FOUND")
         self.clock = pygame.time.Clock()
         self.current_scene = "main"
-        self.scenes = {"main": MainMenu(self),}
+        self.scenes = {"main": App(self)}
         self.run()
         
     def run(self):

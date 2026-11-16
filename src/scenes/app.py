@@ -2,8 +2,8 @@ import pygame
 from src.ui.button import Button
 from src import settings
 
-class MainMenu:
-    """Main menu
+class App:
+    """The main app
     Arg: game: current scene manager"""
     def __init__(self, app):
         self.app = app
