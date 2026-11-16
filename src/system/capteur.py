@@ -13,7 +13,7 @@ def instrument():
         pwm.ChangeFrequency(freq)
         time.sleep(0.03)
 
-GPIO.cleanup()
+    GPIO.cleanup()
 
 
 
