@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 from grove.grove_ultrasonic_ranger import GroveUltrasonicRanger
 
 SPEAKER = 12
-FREQ_MIN = 261.63 #Hz
+FREQ_MIN = 261.63 #Hz (DO4)
 DIST_MAX = 39 #cm
 LARG_NOTE = 3
 
