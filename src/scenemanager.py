@@ -1,7 +1,7 @@
 import pygame
 from src import settings
 from src.scenes.app import App
-from src.system.save_load import load, save
+from src.system.capteur import Instrument
                 
 class SceneManager:
     """Scene manager, help change the scene to current scene"""
@@ -21,6 +21,7 @@ class SceneManager:
             scene.run()
             print(self.current_scene)
             if self.current_scene == "quit":
+                Instrument.close()
                 pygame.quit()
                 break
 

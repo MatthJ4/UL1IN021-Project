@@ -1,17 +1,18 @@
 import pygame
 from src.ui.button import Button
 from src import settings
-from src.system import capteur
+from src.system.capteur import Instrument
 
 class App:
     """The main app
     Arg: scm: current scene manager"""
     def __init__(self, scm):
         self.scm = scm
+        self.instrument = Instrument()
         self.clock = pygame.time.Clock()
         self.events = pygame.event.get()
         self.font =  pygame.font.SysFont("Times New Roman", 14)
-        self.buttons = [Button("Record", 200*settings.scalex, 100*settings.scaley, lambda: app.button_action())]
+        self.buttons = [Button("Record", 200*settings.scalex, 100*settings.scaley, lambda: scm.button_action())]
 
     def run(self):
         """ Main Menu run loop"""
@@ -28,7 +29,7 @@ class App:
             settings.screen.fill(settings.grey)
             for btn in self.buttons:
                 btn.update(self.events)
-            capteur.instrument()
+            Instrument.update()
 
             pygame.display.flip()
             self.clock.tick(60)

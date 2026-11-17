@@ -1,22 +1,36 @@
 import RPi.GPIO as GPIO
-import time
-from src.settings import distance, ultrasonic, pwm
+from grove.grove_ultrasonic_ranger import GroveUltrasonicRanger
 
-def instrument():
-    distance_brut = ultrasonic.get_distance()
-    distance = (0.8 * distance + 0.2 * distance_brut) #lissage de la distance
-    if distance > 40:
-        pwm.stop()
-    else:
-        ratio = (distance/40)
-        freq = ratio * 535.25
-        pwm.ChangeFrequency(freq)
-        time.sleep(0.03)
+SPEAKER = 12
+FREQ_MIN = 261,63 #Hz
+DIST_MAX = 39 #cm
+LARG_NOTE = 3
 
-    GPIO.cleanup()
+class Instrument:
+    """Capteur de distance + haut parleurs"""
 
+    def __init__(self):
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(SPEAKER, GPIO.OUT)
+        self.ultrasonic = GroveUltrasonicRanger(5)
+        self.pwm = GPIO.PWM(SPEAKER, 500)
+        self.pwm.start(0)
+        self.distance = 20 #pour l'init seulement
 
+    def update(self):
+        """Hyp: self.distance != 0"""
+        dist_brut = self.ultrasonic.get_distance()
+        self.distance = 0.8 * self.distance + 0.2 * dist_brut #lissage
+        if self.distance > DIST_MAX:
+            self.pwm.ChangeDutyCycle(0)
+            return
 
+        self.pwm.ChangeFrequency(FREQ_MIN * 2**((self.distance // LARG_NOTE) / 12))
+        self.pwm.ChangeDutyCycle(50)
+
+    def close(self):
+        self.pwm.stop()
+        GPIO.cleanup()
 
 
 
