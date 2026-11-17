@@ -29,7 +29,7 @@ class App:
             settings.screen.fill(settings.grey)
             for btn in self.buttons:
                 btn.update(self.events)
-            self.Instrument.update()
+            self.instrument.update()
 
             pygame.display.flip()
             self.clock.tick(60)
