@@ -37,24 +37,25 @@ class Instrument:
                 return
             
             note = min(int(self.distance // LARG_NOTE), NB_NOTES - 1)
+            if self.distance <= DIST_MAX and self.note is None:
+                self.pwm.ChangeDutyCycle(50)
             if note == self.note:
                 self.note_pot = None
             elif note != self.note_pot:
                 self.note_pot = note
                 self.depuis = temps
             elif temps - self.depuis >= DELAY:
-                self.pwm.ChangeFrequency(FREQ_MIN * 2 ** (note / 12))
-                if self.note is None:
-                    self.pwm.ChangeDutyCycle(50)
                 self.note_pot = None
                 self.note = note
+                self.pwm.ChangeFrequency(FREQ_MIN * 2 ** (note / 12))
         else:
             if self.distance > DIST_MAX:
-            self.pwm.ChangeDutyCycle(0)
-            return
-
-            self.pwm.ChangeFrequency(FREQ_MIN * 2**((self.distance // LARG_NOTE) / 12))
-            self.pwm.ChangeDutyCycle(50)
+                self.pwm.ChangeDutyCycle(0)
+                return
+            else:
+                ratio = DIST_MAX / self.distance
+                self.pwm.ChangeDutyCycle(50)
+                self.pwm.ChangeFrequency(FREQ_MIN * ratio)
 
     def close(self):
         self.pwm.stop()
