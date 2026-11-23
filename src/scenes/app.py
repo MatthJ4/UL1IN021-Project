@@ -12,7 +12,7 @@ class App:
         self.clock = pygame.time.Clock()
         self.events = pygame.event.get()
         self.font =  pygame.font.SysFont("Times New Roman", 14)
-        self.buttons = [Button("Record", 200*settings.scalex, 100*settings.scaley, lambda: scm.button_action())]
+        self.buttons = [Button("Change Gestophone mode", 200*settings.scalex, 100*settings.scaley, lambda: self.scm.change_mode(self.instrument))]
 
     def run(self):
         """ Main Menu run loop"""

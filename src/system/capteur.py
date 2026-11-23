@@ -18,34 +18,43 @@ class Instrument:
         self.ultrasonic = GroveUltrasonicRanger(5)
         self.pwm = GPIO.PWM(SPEAKER, 500)
         self.pwm.start(0)
-        self.distance = 20 #pour l'init seulement
+        self.distance = DIST_MAX #pour l'init seulement
         self.note_pot = None
         self.note = None
         self.depuis = 0.0
+        self.mode = 0
 
     def update(self):
         """Update de l'instrument toutes les frames"""
         dist_brut = self.ultrasonic.get_distance()
         self.distance = 0.8 * self.distance + 0.2 * dist_brut #lissage
-        temps = time.monotonic()
-        if self.distance > DIST_MAX:
-            self.note_pot = None
+        if self.mode == 1:
+            temps = time.monotonic()
+            if self.distance > DIST_MAX:
+                self.note_pot = None
+                self.pwm.ChangeDutyCycle(0)
+                self.note = None
+                return
+            
+            note = min(int(self.distance // LARG_NOTE), NB_NOTES - 1)
+            if note == self.note:
+                self.note_pot = None
+            elif note != self.note_pot:
+                self.note_pot = note
+                self.depuis = temps
+            elif temps - self.depuis >= DELAY:
+                self.pwm.ChangeFrequency(FREQ_MIN * 2 ** (note / 12))
+                if self.note is None:
+                    self.pwm.ChangeDutyCycle(50)
+                self.note_pot = None
+                self.note = note
+        else:
+            if self.distance > DIST_MAX:
             self.pwm.ChangeDutyCycle(0)
-            self.note = None
             return
-        
-        note = min(int(self.distance // LARG_NOTE), NB_NOTES - 1)
-        if note == self.note:
-            self.note_pot = None
-        elif note != self.note_pot:
-            self.note_pot = note
-            self.depuis = temps
-        elif temps - self.depuis >= DELAY:
-            self.pwm.ChangeFrequency(FREQ_MIN * 2 ** (note / 12))
-            if self.note is None:
-                self.pwm.ChangeDutyCycle(50)
-            self.note_pot = None
-            self.note = note
+
+            self.pwm.ChangeFrequency(FREQ_MIN * 2**((self.distance // LARG_NOTE) / 12))
+            self.pwm.ChangeDutyCycle(50)
 
     def close(self):
         self.pwm.stop()

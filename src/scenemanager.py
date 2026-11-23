@@ -8,7 +8,7 @@ class SceneManager:
     pygame.init()
     pygame.mixer.init()
     def __init__(self):
-        pygame.display.set_caption("NAME TO BE FOUND")
+        pygame.display.set_caption("Gestophone.exe")
         self.clock = pygame.time.Clock()
         self.current_scene = "main"
         self.scenes = {"main": App(self)}
@@ -19,7 +19,6 @@ class SceneManager:
         while True:
             scene = self.scenes[self.current_scene]
             scene.run()
-            print(self.current_scene)
             if self.current_scene == "quit":
                 Instrument.close()
                 pygame.quit()
@@ -29,5 +28,5 @@ class SceneManager:
         """Change the current scene to scene"""
         self.current_scene = scene
 
-    def button_action(self):
-        """TO DO"""
+    def change_mode(self, instrument):
+        return 1 if instrument.mode == 0 else 0
