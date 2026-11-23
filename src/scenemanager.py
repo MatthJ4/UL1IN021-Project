@@ -29,4 +29,5 @@ class SceneManager:
         self.current_scene = scene
 
     def change_mode(self, instrument):
-        return 1 if instrument.mode == 0 else 0
+        return not(instrument.mode)
+        

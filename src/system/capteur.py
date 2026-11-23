@@ -22,13 +22,13 @@ class Instrument:
         self.note_pot = None
         self.note = None
         self.depuis = 0.0
-        self.mode = 0
+        self.mode = False
 
     def update(self):
         """Update de l'instrument toutes les frames"""
         dist_brut = self.ultrasonic.get_distance()
         self.distance = 0.8 * self.distance + 0.2 * dist_brut #lissage
-        if self.mode == 1:
+        if self.mode:
             temps = time.monotonic()
             if self.distance > DIST_MAX:
                 self.note_pot = None
