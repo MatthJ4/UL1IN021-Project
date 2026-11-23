@@ -26,4 +26,3 @@ class Button:
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and text_rect.collidepoint(mouse):
                 self.action()
-                print("pressed")
